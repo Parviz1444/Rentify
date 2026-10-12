@@ -1,0 +1,210 @@
+{% extends "base.html" %} {% block content %}
+<main class="home-page">
+  <section class="home-hero" aria-labelledby="hero-title">
+    <div class="hero-content">
+      <div class="hero-copy">
+        <p class="hero-eyebrow"><span></span>BUKHARA, UZBEKISTAN</p>
+        <h1 id="hero-title">
+          Find a place to rent.<br />Find a place to call home.
+        </h1>
+        <p class="hero-description">
+          Buy or rent the right place for your next chapter.
+        </p>
+      </div>
+
+      <form class="property-search" method="get" action="{% url 'search' %}">
+        <fieldset class="search-tabs">
+          <legend class="visually-hidden">What are you looking for?</legend>
+          <label class="search-tab">
+            <input type="radio" name="intent" value="buy" checked />
+            <span>Buy</span>
+          </label>
+          <label class="search-tab">
+            <input type="radio" name="intent" value="rent" />
+            <span>Rent</span>
+          </label>
+        </fieldset>
+
+        <div class="search-fields">
+          <label class="search-field search-location">
+            <span class="field-label">Location</span>
+            <span class="field-control location-control">
+              <i class="bi bi-geo-alt" aria-hidden="true"></i>
+              <input
+                name="location"
+                type="text"
+                value="Bukhara"
+                placeholder="City or neighborhood"
+              />
+            </span>
+          </label>
+
+          <label class="search-field">
+            <span class="field-label">Property type</span>
+            <select name="property_type">
+              <option value="">Any type</option>
+              <option value="apartment">Apartment</option>
+              <option value="house">House</option>
+              <option value="townhouse">Townhouse</option>
+              <option value="studio">Studio</option>
+            </select>
+          </label>
+
+          <label class="search-field">
+            <span class="field-label">Price range</span>
+            <select id="price-range" name="price_range">
+              <option value="">Any budget</option>
+              <option value="under-100000">Under $100,000</option>
+              <option value="100000-300000">$100,000 - $300,000</option>
+              <option value="over-300000">$300,000+</option>
+            </select>
+          </label>
+
+          <label class="search-field">
+            <span class="field-label">Bedrooms</span>
+            <select name="bedrooms">
+              <option value="">Any</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+            </select>
+          </label>
+
+          <button class="search-button" type="submit">
+            <i class="bi bi-search" aria-hidden="true"></i>
+            <span>Search</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="home-showcase" aria-label="Why people choose Rentify">
+    <div class="section-heading">
+      <p class="section-kicker">WHY RENTIFY</p>
+      <h2>Everything you need to move with confidence.</h2>
+    </div>
+
+    <div class="stats-grid">
+      <article class="stat-card">
+        <strong>1200+</strong>
+        <span>Active listings</span>
+      </article>
+      <article class="stat-card">
+        <strong>92%</strong>
+        <span>Buyer satisfaction</span>
+      </article>
+      <article class="stat-card">
+        <strong>24/7</strong>
+        <span>Support access</span>
+      </article>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature-card">
+        <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+        <h3>Verified homes</h3>
+        <p>
+          Browse trusted listings with clear details, transparent prices, and
+          real local insights.
+        </p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon"><i class="bi bi-sliders"></i></div>
+        <h3>Smart filters</h3>
+        <p>
+          Find homes by budget, bedrooms, neighborhood, and property type
+          without the guesswork.
+        </p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon"><i class="bi bi-people"></i></div>
+        <h3>Local expertise</h3>
+        <p>
+          Discover what matters most in Bukhara communities, from commuting to
+          lifestyle fit.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="neighborhood-section" aria-label="Popular neighborhoods">
+    <div class="section-heading compact">
+      <p class="section-kicker">POPULAR NEIGHBORHOODS</p>
+      <h2>Explore the areas buyers and renters love.</h2>
+    </div>
+
+    <div class="neighborhood-grid">
+      <article class="neighborhood-card city-center">
+        <div class="neighborhood-overlay"></div>
+        <div class="neighborhood-copy">
+          <span>Old City</span>
+          <strong>From $450 / month</strong>
+        </div>
+      </article>
+      <article class="neighborhood-card city-east">
+        <div class="neighborhood-overlay"></div>
+        <div class="neighborhood-copy">
+          <span>Central Park</span>
+          <strong>From $750 / month</strong>
+        </div>
+      </article>
+      <article class="neighborhood-card city-south">
+        <div class="neighborhood-overlay"></div>
+        <div class="neighborhood-copy">
+          <span>South District</span>
+          <strong>From $980 / month</strong>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="process-section" aria-label="How it works">
+    <div class="section-heading compact">
+      <p class="section-kicker">HOW IT WORKS</p>
+      <h2>Simple steps to your next move.</h2>
+    </div>
+
+    <div class="process-grid">
+      <article class="process-card">
+        <span>01</span>
+        <h3>Search</h3>
+        <p>
+          Choose the type of home you want and filter by price, location, and
+          layout.
+        </p>
+      </article>
+      <article class="process-card">
+        <span>02</span>
+        <h3>Compare</h3>
+        <p>
+          Review homes, neighborhoods, and details to find your best-fit place.
+        </p>
+      </article>
+      <article class="process-card">
+        <span>03</span>
+        <h3>Move in</h3>
+        <p>
+          Connect with owners, confirm your next chapter, and settle in
+          stress-free.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="cta-banner" aria-label="List your home">
+    <div>
+      <p class="section-kicker light">LIST YOUR PROPERTY</p>
+      <h2>Turn your space into opportunity.</h2>
+    </div>
+    <a href="{% url 'sell' %}" class="cta-banner-button">List your home</a>
+  </section>
+</main>
+
+<footer class="home-footer">
+  <div class="home-footer-inner">
+    <p>Co-operators: we don't have colloborations for now :)</p>
+  </div>
+</footer>
+{% endblock content %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block content %}
+<main class="auth-page">
+  <section class="auth-panel" aria-labelledby="auth-title">
+    <p class="destination-eyebrow">WELCOME BACK</p>
+    <h1 id="auth-title">Sign in to Rentify</h1>
+    <p class="auth-intro">Pick up where your next move begins.</p>
+    <form class="auth-form" method="post">
+      {% csrf_token %} {{ form.non_field_errors }} {{ form.as_p }}
+      <input type="hidden" name="next" value="{{ next }}" />
+      <button class="action-link" type="submit">Sign in</button>
+    </form>
+    <p class="auth-switch">
+      New to Rentify? <a href="{% url 'register' %}">Create an account</a>
+    </p>
+  </section>
+</main>
+{% endblock content %}

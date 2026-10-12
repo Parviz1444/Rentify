@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% block content %}
+<main class="destination-page profile-page">
+  <header class="destination-heading">
+    <p class="destination-eyebrow">YOUR PROFILE</p>
+    <h1>Your profile</h1>
+    <p>Manage your account and listings.</p>
+  </header>
+  <section class="profile-details" aria-labelledby="profile-details-title">
+    <div class="profile-avatar" aria-hidden="true">
+      {{ user.username|first|upper }}
+    </div>
+    <div>
+      <p class="field-label">USERNAME</p>
+      <h2 id="profile-details-title">{{ user.username }}</h2>
+      <p class="profile-email">{{ user.email|default:"No email added" }}</p>
+      <p class="profile-since">
+        Member since {{ user.date_joined|date:"F Y" }}
+      </p>
+    </div>
+    <a class="action-link" href="{% url 'sell' %}">List a property</a>
+  </section>
+  <section class="profile-listings" aria-labelledby="profile-listings-title">
+    <div class="profile-listings-heading">
+      <div>
+        <p class="destination-eyebrow">YOUR HOMES</p>
+        <h2 id="profile-listings-title">Your listings</h2>
+      </div>
+      <a class="text-link" href="{% url 'sell' %}">Post another home</a>
+    </div>
+    {% if listings %}
+    <div class="listing-grid">
+      {% for listing in listings %}
+      <article class="listing-card">
+        {% if listing.image %}
+        <img
+          class="listing-photo"
+          src="{{ listing.image.url }}"
+          alt="{{ listing.title }}"
+        />
+        {% else %}
+        <div class="listing-photo listing-photo-placeholder" aria-hidden="true">
+          <i class="bi bi-house-heart"></i>
+        </div>
+        {% endif %}
+        <div class="listing-card-body">
+          <p class="listing-type">
+            <span>{{ listing.get_purpose_display }}</span>
+            <span>·</span>
+            <span>{{ listing.get_property_type_display }}</span>
+          </p>
+          <h3>{{ listing.title }}</h3>
+          <p class="listing-address">
+            {{ listing.city }} · {{ listing.address }}
+          </p>
+          <p class="listing-price">
+            ${{ listing.price|floatformat:0 }}{{ listing.price_period }}
+          </p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="profile-empty">You haven't posted a home yet.</p>
+    {% endif %}
+  </section>
+</main>
+{% endblock content %}

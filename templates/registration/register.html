@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block content %}
+<main class="auth-page">
+  <section class="auth-panel" aria-labelledby="auth-title">
+    <p class="destination-eyebrow">MAKE YOURSELF AT HOME</p>
+    <h1 id="auth-title">Create your account</h1>
+    <p class="auth-intro">
+      Save your details and get ready for your next move.
+    </p>
+    <form class="auth-form" method="post">
+      {% csrf_token %} {{ form.non_field_errors }} {{ form.as_p }}
+      <button class="action-link" type="submit">Create account</button>
+    </form>
+    <p class="auth-switch">
+      Already have an account? <a href="{% url 'login' %}">Sign in</a>
+    </p>
+  </section>
+</main>
+{% endblock content %}

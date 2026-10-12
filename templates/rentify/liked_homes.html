@@ -1,0 +1,74 @@
+{% extends "base.html" %} {% block content %}
+<main class="destination-page">
+  <header class="destination-heading">
+    <p class="destination-eyebrow">RENTIFY / FAVORITES</p>
+    <h1>Liked homes</h1>
+    <p>Keep track of the homes that caught your eye.</p>
+  </header>
+
+  <section class="browse-results" aria-labelledby="liked-results-title">
+    <div class="browse-toolbar">
+      <div>
+        <p class="field-label">FAVORITES</p>
+        <h2 id="liked-results-title">{{ liked_count }} homes</h2>
+      </div>
+      <a class="text-link" href="{% url 'home' %}">Back home</a>
+    </div>
+
+    {% if listings %}
+    <div class="listing-grid">
+      {% for listing in listings %}
+      <a class="listing-card-link" href="{% url 'listing_detail' listing.pk %}">
+        <article class="listing-card">
+          {% if listing.image %}
+          <img
+            class="listing-photo"
+            src="{{ listing.image.url }}"
+            alt="{{ listing.title }}"
+          />
+          {% else %}
+          <div
+            class="listing-photo listing-photo-placeholder"
+            aria-hidden="true"
+          >
+            <i class="bi bi-house-heart"></i>
+          </div>
+          {% endif %}
+          <div class="listing-card-body">
+            <p class="listing-type">
+              <span>{{ listing.get_property_type_display }}</span>
+              <span>·</span>
+              <span>{{ listing.get_purpose_display }}</span>
+            </p>
+            <h2>{{ listing.title }}</h2>
+            <p class="listing-address">
+              {{ listing.city }} · {{ listing.address }}
+            </p>
+            <p class="listing-price">
+              ${{ listing.price|floatformat:0 }}{{ listing.price_period }}
+            </p>
+            <p class="listing-facts">
+              {{ listing.bedrooms }} beds <span>·</span> {{ listing.bathrooms }}
+              baths <span>·</span> {{ listing.area_sqm }} m²
+            </p>
+          </div>
+        </article>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <span class="empty-state-icon" aria-hidden="true"
+        ><i class="bi bi-heart"></i
+      ></span>
+      <h2>No homes liked yet</h2>
+      <p>
+        Tap the heart on any listing to save it here and compare your favorite
+        places.
+      </p>
+      <a class="action-link" href="{% url 'rent' %}">Explore homes</a>
+    </div>
+    {% endif %}
+  </section>
+</main>
+{% endblock content %}

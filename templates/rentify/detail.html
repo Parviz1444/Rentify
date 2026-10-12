@@ -1,0 +1,118 @@
+{% extends "base.html" %} {% block content %}
+<main class="detail-page">
+  <article class="detail-shell">
+    <div class="detail-visual">
+      {% if listing.image %}
+      <img src="{{ listing.image.url }}" alt="{{ listing.title }}" />
+      {% else %}
+      <div class="detail-visual-placeholder" aria-hidden="true">
+        <i class="bi bi-house-heart"></i>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="detail-content">
+      <p class="destination-eyebrow">PROPERTY DETAILS</p>
+      <h1>{{ listing.title }}</h1>
+
+      <div class="detail-meta">
+        <span>{{ listing.get_property_type_display }}</span>
+        <span>{{ listing.city }}</span>
+        <span>{{ listing.get_purpose_display }}</span>
+      </div>
+
+      <p class="detail-price">
+        ${{ listing.price|floatformat:0 }}{{ listing.price_period }}
+      </p>
+
+      <div class="detail-action-row">
+        {% if user.is_authenticated %} {% if listing.owner_id == user.id %}
+        <span class="detail-action-button" aria-disabled="true">
+          <i class="bi bi-house-check" aria-hidden="true"></i>
+          <span>Your listing</span>
+        </span>
+        {% else %}
+        <form method="post" class="inline-action-form">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="toggle_like" />
+          <button
+            type="submit"
+            class="detail-action-button {% if is_liked %}is-active{% endif %}"
+            data-action="like"
+            data-listing-id="{{ listing.pk }}"
+            data-default-label="Like"
+            data-active-label="Liked"
+            aria-pressed="{{ is_liked|yesno:'true,false' }}"
+          >
+            <i
+              class="bi {% if is_liked %}bi-heart-fill{% else %}bi-heart{% endif %}"
+            ></i>
+            <span>{% if is_liked %}Liked{% else %}Like{% endif %}</span>
+          </button>
+        </form>
+        <p
+          class="like-feedback"
+          id="like-feedback"
+          role="status"
+          aria-live="polite"
+        ></p>
+        {% endif %} {% else %}
+        <a
+          class="detail-action-button"
+          href="{% url 'login' %}?next={{ request.path }}"
+        >
+          <i class="bi bi-heart" aria-hidden="true"></i>
+          <span>Log in to like</span>
+        </a>
+        {% endif %}
+      </div>
+
+      <div class="detail-stats">
+        <div class="detail-stat">
+          <span>Bedrooms</span>
+          <strong>{{ listing.bedrooms }}</strong>
+        </div>
+        <div class="detail-stat">
+          <span>Bathrooms</span>
+          <strong>{{ listing.bathrooms }}</strong>
+        </div>
+        <div class="detail-stat">
+          <span>Area</span>
+          <strong>{{ listing.area_sqm }} m²</strong>
+        </div>
+      </div>
+
+      <section class="detail-section">
+        <h2>Location</h2>
+        <p>{{ listing.address }}, {{ listing.city }}</p>
+      </section>
+
+      <section class="detail-section">
+        <h2>Overview</h2>
+        <p>{{ listing.description }}</p>
+      </section>
+    </div>
+
+    {% if user.is_authenticated and listing.owner_id != user.id %}
+    <aside class="seller-panel">
+      <h2>Message the seller</h2>
+      <form method="post" class="detail-inquiry-form">
+        {% csrf_token %} {% for field in inquiry_form %}
+        <div class="detail-field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }} {% if field.errors %}
+          <ul class="errorlist">
+            {% for error in field.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        {% endfor %}
+        <button class="action-link" type="submit">Send message</button>
+      </form>
+    </aside>
+    {% endif %}
+  </article>
+</main>
+{% endblock content %}

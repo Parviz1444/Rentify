@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block content %}
+<main class="auth-page">
+  <section class="auth-panel auth-message" aria-labelledby="auth-title">
+    <span class="empty-state-icon" aria-hidden="true"
+      ><i class="bi bi-check2-circle"></i
+    ></span>
+    <p class="destination-eyebrow">SIGNED OUT</p>
+    <h1 id="auth-title">See you next time.</h1>
+    <p class="auth-intro">You have safely signed out of Rentify.</p>
+    <a class="action-link" href="{% url 'home' %}">Back to home</a>
+  </section>
+</main>
+{% endblock content %}
