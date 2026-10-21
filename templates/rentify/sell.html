@@ -1,14 +1,14 @@
 {% extends "base.html" %} {% block content %}
 <main class="destination-page listing-create-page">
   <header class="destination-heading">
-    <p class="destination-eyebrow">SHARE YOUR PLACE</p>
-    <h1>Post your home</h1>
-    <p>Add a few details so renters and buyers can find the right fit.</p>
+    <p class="destination-eyebrow">{{ page_eyebrow|default:"SHARE YOUR PLACE" }}</p>
+    <h1>{{ page_title|default:"Post your home" }}</h1>
+    <p>{{ page_description|default:"Add a few details so renters and buyers can find the right fit." }}</p>
   </header>
 
   <form class="listing-form" method="post" enctype="multipart/form-data">
     {% csrf_token %} {{ form.non_field_errors }} {{ form.as_p }}
-    <button class="action-link" type="submit">Post home</button>
+    <button class="action-link" type="submit">{{ submit_label|default:"Post home" }}</button>
   </form>
 </main>
 {% endblock content %}

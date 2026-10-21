@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 
 from .forms import ListingForm, ListingInquiryForm
 from .models import Listing, ListingLike
@@ -154,4 +155,41 @@ def sell_view(request):
         listing.save()
         messages.success(request, "Your home has been posted.")
         return redirect("profile")
-    return render(request, "rentify/sell.html", {"form": form})
+    return render(request, "rentify/sell.html", {
+        "form": form,
+        "page_eyebrow": "SHARE YOUR PLACE",
+        "page_title": "Post your home",
+        "page_description": "Add a few details so renters and buyers can find the right fit.",
+        "submit_label": "Post home",
+    })
+
+
+@login_required
+def listing_edit_view(request, pk):
+    listing = get_object_or_404(Listing, pk=pk, owner=request.user, is_active=True)
+    form = ListingForm(
+        request.POST or None,
+        request.FILES or None,
+        instance=listing,
+    )
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Your listing has been updated.")
+        return redirect("listing_detail", pk=listing.pk)
+    return render(request, "rentify/sell.html", {
+        "form": form,
+        "page_eyebrow": "MANAGE YOUR LISTING",
+        "page_title": "Edit your listing",
+        "page_description": "Update the details of your home.",
+        "submit_label": "Save changes",
+    })
+
+
+@login_required
+@require_POST
+def listing_delete_view(request, pk):
+    listing = get_object_or_404(Listing, pk=pk, owner=request.user, is_active=True)
+    listing.is_active = False
+    listing.save(update_fields=("is_active",))
+    messages.success(request, "Your listing has been deleted.")
+    return redirect("profile")

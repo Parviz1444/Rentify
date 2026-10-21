@@ -1854,6 +1854,16 @@ select {
   background: var(--accent);
 }
 
+.detail-action-button.is-danger {
+  color: #a33b32;
+}
+
+.detail-action-button.is-danger:hover {
+  border-color: #a33b32;
+  color: white;
+  background: #a33b32;
+}
+
 .detail-action-button[aria-disabled="true"] {
   color: var(--muted);
   background: var(--paper);

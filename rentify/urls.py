@@ -10,4 +10,6 @@ urlpatterns = [
     path("inbox/", views.seller_inbox_view, name="seller_inbox"),
     path("sell/", views.sell_view, name="sell"),
     path("listing/<int:pk>/", views.listing_detail_view, name="listing_detail"),
+    path("listing/<int:pk>/edit/", views.listing_edit_view, name="listing_edit"),
+    path("listing/<int:pk>/delete/", views.listing_delete_view, name="listing_delete"),
 ]
