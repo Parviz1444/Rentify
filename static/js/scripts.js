@@ -99,9 +99,15 @@ document.addEventListener("DOMContentLoaded", () => {
           body: new FormData(likeForm),
           headers: { "X-Requested-With": "XMLHttpRequest" },
         });
+        const contentType = response.headers.get("content-type") || "";
+        if (!contentType.includes("application/json")) {
+          throw new Error("Could not update like. Refresh the page and try again.");
+        }
         const result = await response.json();
         if (!response.ok)
-          throw new Error(result.message || "Could not update like.");
+          throw new Error(
+            result.message || "Could not update like. Please try again.",
+          );
 
         likeButton.classList.toggle("is-active", result.liked);
         likeButton.setAttribute("aria-pressed", String(result.liked));

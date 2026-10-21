@@ -39,6 +39,11 @@ def listing_detail_view(request, pk):
         action = request.POST.get("action")
         if action == "toggle_like":
             if not request.user.is_authenticated:
+                if request.headers.get("x-requested-with") == "XMLHttpRequest":
+                    return JsonResponse(
+                        {"message": "Please log in to like this listing."},
+                        status=401,
+                    )
                 return redirect(f"{reverse('login')}?next={reverse('listing_detail', args=[listing.pk])}")
             if listing.owner_id == request.user.id:
                 liked = False

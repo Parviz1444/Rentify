@@ -92,6 +92,40 @@ class ListingManagementTests(TestCase):
 
         self.assertEqual(response.status_code, 405)
 
+    def test_ajax_like_returns_json_and_toggles_like(self):
+        self.client.force_login(self.other_user)
+        url = reverse("listing_detail", args=[self.listing.pk])
+        headers = {"HTTP_X_REQUESTED_WITH": "XMLHttpRequest"}
+
+        liked_response = self.client.post(
+            url,
+            {"action": "toggle_like"},
+            **headers,
+        )
+        unliked_response = self.client.post(
+            url,
+            {"action": "toggle_like"},
+            **headers,
+        )
+
+        self.assertEqual(liked_response.status_code, 200)
+        self.assertEqual(liked_response.json()["liked"], True)
+        self.assertEqual(unliked_response.status_code, 200)
+        self.assertEqual(unliked_response.json()["liked"], False)
+
+    def test_anonymous_ajax_like_returns_json_401(self):
+        response = self.client.post(
+            reverse("listing_detail", args=[self.listing.pk]),
+            {"action": "toggle_like"},
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(
+            response.json()["message"],
+            "Please log in to like this listing.",
+        )
+
     def test_management_buttons_are_only_shown_to_owner(self):
         guest_response = self.client.get(
             reverse("listing_detail", args=[self.listing.pk])
