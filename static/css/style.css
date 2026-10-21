@@ -2181,3 +2181,156 @@ select {
     display: flex;
   }
 }
+
+@media (max-width: 900px) {
+  .stats-grid,
+  .feature-grid,
+  .neighborhood-grid,
+  .process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .search-button {
+    grid-column: 1 / -1;
+  }
+
+  .detail-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .detail-visual img,
+  .detail-visual-placeholder {
+    height: 380px;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-showcase,
+  .neighborhood-section,
+  .process-section {
+    width: calc(100% - 32px);
+    padding-top: 56px;
+  }
+
+  .stats-grid,
+  .feature-grid,
+  .neighborhood-grid,
+  .process-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .stat-card,
+  .feature-card,
+  .process-card {
+    padding: 20px;
+  }
+
+  .neighborhood-card {
+    min-height: 220px;
+  }
+
+  .cta-banner {
+    width: calc(100% - 32px);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 22px;
+    margin: 56px auto 48px;
+    padding: 26px 22px;
+    border-radius: 18px;
+  }
+
+  .cta-banner-button {
+    width: 100%;
+  }
+
+  .home-footer-inner {
+    width: calc(100% - 32px);
+  }
+
+  .home-footer p {
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+
+  .detail-page {
+    width: calc(100% - 32px);
+    padding: 36px 0 56px;
+  }
+
+  .detail-shell {
+    gap: 22px;
+  }
+
+  .detail-visual {
+    border-radius: 18px;
+  }
+
+  .detail-visual img,
+  .detail-visual-placeholder {
+    height: 250px;
+  }
+
+  .detail-content {
+    gap: 14px;
+  }
+
+  .detail-content h1 {
+    font-size: 32px;
+    overflow-wrap: anywhere;
+  }
+
+  .detail-action-row {
+    gap: 8px;
+  }
+
+  .detail-action-button {
+    min-height: 44px;
+    padding: 0 12px;
+  }
+
+  .detail-stats {
+    gap: 8px;
+  }
+
+  .detail-stat {
+    padding: 12px 10px;
+    overflow-wrap: anywhere;
+  }
+
+  .detail-stat strong {
+    font-size: 16px;
+  }
+
+  .seller-panel {
+    padding: 18px;
+  }
+
+  .browse-toolbar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .browse-toolbar .text-link {
+    margin-left: auto;
+  }
+
+  .profile-listings-heading {
+    flex-wrap: wrap;
+  }
+
+  .profile-listings-heading .text-link {
+    margin-left: auto;
+  }
+
+  .auth-panel {
+    padding: 24px 18px;
+  }
+
+  .destination-heading h1,
+  .sell-intro h1 {
+    font-size: 32px;
+  }
+}

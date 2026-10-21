@@ -82,6 +82,8 @@ class ListingManagementTests(TestCase):
         )
         self.listing.refresh_from_db()
         self.assertFalse(self.listing.is_active)
+        profile_response = self.client.get(reverse("profile"))
+        self.assertNotContains(profile_response, self.listing.title)
 
     def test_delete_requires_post(self):
         self.client.force_login(self.owner)

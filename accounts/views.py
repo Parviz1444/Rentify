@@ -23,5 +23,5 @@ def profile_view(request):
 	return render(
 		request,
 		"registration/profile.html",
-		{"listings": request.user.listings.all()},
+		{"listings": request.user.listings.filter(is_active=True)},
 	)
