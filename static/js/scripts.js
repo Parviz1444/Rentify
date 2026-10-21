@@ -80,48 +80,48 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const likeForm = document.querySelector(
-    '.detail-action-row form:has([data-action="like"])',
-  );
-  if (likeForm) {
-    const likeButton = likeForm.querySelector('[data-action="like"]');
+  const likeButton = document.querySelector('[data-action="like"]');
+  if (likeButton) {
+    const likeForm = likeButton.closest("form");
     const likeIcon = likeButton.querySelector("i");
     const likeLabel = likeButton.querySelector("span");
     const likeFeedback = document.querySelector("#like-feedback");
 
-    likeForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      likeButton.disabled = true;
+    if (likeForm) {
+      likeForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        likeButton.disabled = true;
 
-      try {
-        const response = await fetch(likeForm.action || window.location.href, {
-          method: "POST",
-          body: new FormData(likeForm),
-          headers: { "X-Requested-With": "XMLHttpRequest" },
-        });
-        const contentType = response.headers.get("content-type") || "";
-        if (!contentType.includes("application/json")) {
-          throw new Error("Could not update like. Refresh the page and try again.");
+        try {
+          const response = await fetch(likeForm.action || window.location.href, {
+            method: "POST",
+            body: new FormData(likeForm),
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+          });
+          const contentType = response.headers.get("content-type") || "";
+          if (!contentType.includes("application/json")) {
+            throw new Error("Could not update like. Refresh the page and try again.");
+          }
+          const result = await response.json();
+          if (!response.ok)
+            throw new Error(
+              result.message || "Could not update like. Please try again.",
+            );
+
+          likeButton.classList.toggle("is-active", result.liked);
+          likeButton.setAttribute("aria-pressed", String(result.liked));
+          likeIcon.classList.toggle("bi-heart-fill", result.liked);
+          likeIcon.classList.toggle("bi-heart", !result.liked);
+          likeLabel.textContent = result.liked
+            ? likeButton.dataset.activeLabel
+            : likeButton.dataset.defaultLabel;
+          likeFeedback.textContent = result.message;
+        } catch (error) {
+          likeFeedback.textContent = error.message;
+        } finally {
+          likeButton.disabled = false;
         }
-        const result = await response.json();
-        if (!response.ok)
-          throw new Error(
-            result.message || "Could not update like. Please try again.",
-          );
-
-        likeButton.classList.toggle("is-active", result.liked);
-        likeButton.setAttribute("aria-pressed", String(result.liked));
-        likeIcon.classList.toggle("bi-heart-fill", result.liked);
-        likeIcon.classList.toggle("bi-heart", !result.liked);
-        likeLabel.textContent = result.liked
-          ? likeButton.dataset.activeLabel
-          : likeButton.dataset.defaultLabel;
-        likeFeedback.textContent = result.message;
-      } catch (error) {
-        likeFeedback.textContent = error.message;
-      } finally {
-        likeButton.disabled = false;
-      }
-    });
+      });
+    }
   }
 });
